@@ -78,7 +78,7 @@ dispatch:
     bcs contin1
     jmp snerr
 contin1:
-    cmp #'z'
+    cmp #'z'+1
     bcc contin2
     jmp snerr
 contin2:
@@ -139,5 +139,4 @@ do_border:
     jsr $b79e // get byte into .x
     stx $286  // set text color
     rts
-
-
+    
