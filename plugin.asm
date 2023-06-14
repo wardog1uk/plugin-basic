@@ -2,7 +2,7 @@
 // Copyright (c) 2014, 2023 by
 // Jim Lawless - jimbo@radiks.net
 // MIT / X11 license
-// See: http://www.mailsend-online.com/license2014.php
+// See: https://github.com/jimlawless/plugin-basic/blob/main/LICENSE
 //
 // Written using KickAssembler
 
@@ -139,4 +139,3 @@ do_border:
     jsr $b79e // get byte into .x
     stx $286  // set text color
     rts
-    
