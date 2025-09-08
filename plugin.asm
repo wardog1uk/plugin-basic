@@ -11,7 +11,6 @@ BasicUpstart2(start)
 .encoding "petscii_mixed"
 
 .const CHRGET = $0073
-.const CHRGOT = $0079
 .const SNERR = $af08
 .const NEWSTT = $a7ae
 .const GONE = $a7e4
