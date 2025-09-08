@@ -15,6 +15,7 @@ BasicUpstart2(start)
 .const NEWSTT = $a7ae
 .const GONE = $a7e4
 .const STROUT = $ab1e
+.const IGONE = $0308    // location of pointer to GONE
 
 * = $c000
 
@@ -22,9 +23,9 @@ start:
     jsr intromsg
 
     lda #<newgone
-    sta $0308
+    sta IGONE
     lda #>newgone
-    sta $0309
+    sta IGONE+1
 
     rts
 
