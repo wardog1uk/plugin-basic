@@ -10,12 +10,12 @@ BasicUpstart2(start)
 
 .encoding "petscii_mixed"
 
-.var chrget = $0073
-.var chrgot = $0079
-.var snerr = $af08
-.var newstt = $a7ae
-.var gone = $a7e4
-.var strout = $ab1e
+.const CHRGET = $0073
+.const CHRGOT = $0079
+.const SNERR = $af08
+.const NEWSTT = $a7ae
+.const GONE = $a7e4
+.const STROUT = $ab1e
 
 * = $c000
 
@@ -30,52 +30,51 @@ start:
     rts
 
 newgone:
-    jsr chrget
+    jsr CHRGET
     php
     cmp #'@'
     beq newdispatch
 
 // not our @ token ... jmp back
-// into gone
+// into GONE
     plp
-// jump past the JSR chrget call in gone
-    jmp gone+3
+// jump past the JSR chrget call in GONE
+    jmp GONE+3
 
 newdispatch:
     plp
     jsr dispatch
-    jmp newstt
+    jmp NEWSTT
 
 dispatch:
-    jsr chrget
+    jsr CHRGET
     cmp #'a'
     bcs !+
-    jmp snerr
+    jmp SNERR
 
 !:  cmp #'z'+1
     bcc !+
-    jmp snerr
+    jmp SNERR
 
 !:  sec
     sbc #'a'
-    cmp #'z'
     asl
     tax
     lda table+1,x
     pha
     lda table,x
     pha
-    jmp chrget
+    jmp CHRGET
 
 notimp:
     ldy #>msg
     lda #<msg
-    jmp strout
+    jmp STROUT
 
 intromsg:
     ldy #>imsg
     lda #<imsg
-    jmp strout
+    jmp STROUT
 
 
 // syntax
