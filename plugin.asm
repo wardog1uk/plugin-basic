@@ -29,37 +29,6 @@ start:
 
     rts
 
-// table for commands
-table:
-    .word notimp-1    // @a
-
-    .word do_border-1 // @b
-    .word do_cls-1    // @c
-
-    .word notimp-1    // @d
-    .word notimp-1    // @e
-    .word notimp-1    // @f
-    .word notimp-1    // @g
-    .word notimp-1    // @h
-    .word notimp-1    // @i
-    .word notimp-1    // @j
-    .word notimp-1    // @k
-    .word notimp-1    // @l
-    .word notimp-1    // @m
-    .word notimp-1    // @n
-    .word notimp-1    // @o
-    .word notimp-1    // @p
-    .word notimp-1    // @q
-    .word notimp-1    // @r
-    .word notimp-1    // @s
-    .word notimp-1    // @t
-    .word notimp-1    // @u
-    .word notimp-1    // @v
-    .word notimp-1    // @w
-    .word notimp-1    // @x
-    .word notimp-1    // @y
-    .word notimp-1    // @z
-
 newgone:
     jsr chrget
     php
@@ -98,10 +67,6 @@ dispatch:
     pha
     jmp chrget
 
-msg:
-    .text "plug-in basic command not implemented..."
-    .byte 0
-
 notimp:
     ldy #>msg
     lda #<msg
@@ -112,13 +77,6 @@ intromsg:
     lda #<imsg
     jmp strout
 
-imsg:
-    .text "plug-in basic kernel v 0.02a"
-    .byte $0d
-    .text "by jim lawless"
-// please add your vanity text here for any
-// customizations you make
-    .byte 0
 
 // syntax
 //  @c
@@ -143,3 +101,46 @@ do_border:
     jsr $b79e // get byte into .x
     stx $286  // set text color
     rts
+
+// table for commands
+table:
+    .word notimp-1    // @a
+
+    .word do_border-1 // @b
+    .word do_cls-1    // @c
+
+    .word notimp-1    // @d
+    .word notimp-1    // @e
+    .word notimp-1    // @f
+    .word notimp-1    // @g
+    .word notimp-1    // @h
+    .word notimp-1    // @i
+    .word notimp-1    // @j
+    .word notimp-1    // @k
+    .word notimp-1    // @l
+    .word notimp-1    // @m
+    .word notimp-1    // @n
+    .word notimp-1    // @o
+    .word notimp-1    // @p
+    .word notimp-1    // @q
+    .word notimp-1    // @r
+    .word notimp-1    // @s
+    .word notimp-1    // @t
+    .word notimp-1    // @u
+    .word notimp-1    // @v
+    .word notimp-1    // @w
+    .word notimp-1    // @x
+    .word notimp-1    // @y
+    .word notimp-1    // @z
+
+msg:
+    .text "plug-in basic command not implemented..."
+    .byte 0
+
+imsg:
+    .text "plug-in basic kernel v 0.02a"
+    .byte $0d
+    .text "by jim lawless"
+// please add your vanity text here for any
+// customizations you make
+    .byte 0
