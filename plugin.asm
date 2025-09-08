@@ -6,8 +6,9 @@
 //
 // Written using KickAssembler
 
-    * = $c000
-.encoding "petscii_mixed" 
+BasicUpstart2(start)
+
+.encoding "petscii_mixed"
 
 .var chrget = $0073
 .var chrgot = $0079
@@ -16,18 +17,22 @@
 .var gone = $a7e4
 .var strout = $ab1e
 
+* = $c000
+
+start:
     jsr intromsg
 
-    lda #<newgone    
-    sta $0308    
+    lda #<newgone
+    sta $0308
     lda #>newgone
     sta $0309
+
     rts
 
-// table for commmands
+// table for commands
 table:
     .word notimp-1    // @a
-    
+
     .word do_border-1 // @b
     .word do_cls-1    // @c
 
@@ -77,10 +82,12 @@ dispatch:
     cmp #'a'
     bcs contin1
     jmp snerr
+
 contin1:
     cmp #'z'+1
     bcc contin2
     jmp snerr
+
 contin2:
     sec
     sbc #'a'
@@ -99,20 +106,20 @@ msg:
 
 notimp:
     ldy #>msg
-    lda #<msg    
-    jmp strout 
-intromsg:    
+    lda #<msg
+    jmp strout
+
+intromsg:
     ldy #>imsg
     lda #<imsg
-    jmp strout 
+    jmp strout
 
-imsg: 
+imsg:
     .text "plug-in basic kernel v 0.02a"
     .byte $0d
     .text "by jim lawless"
 // please add your vanity text here for any
 // customizations you make
-
     .byte 0
 
 // syntax
@@ -126,7 +133,6 @@ do_cls:
 // @b border,backgnd,char
 // set border, background, and
 // character color
-
 do_border:
     jsr $b79e // get byte into .x
     stx $d020 // set border
