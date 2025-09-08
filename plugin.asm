@@ -80,16 +80,14 @@ newdispatch:
 dispatch:
     jsr chrget
     cmp #'a'
-    bcs contin1
+    bcs !+
     jmp snerr
 
-contin1:
-    cmp #'z'+1
-    bcc contin2
+!:  cmp #'z'+1
+    bcc !+
     jmp snerr
 
-contin2:
-    sec
+!:  sec
     sbc #'a'
     cmp #'z'
     asl
