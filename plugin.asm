@@ -10,12 +10,13 @@ BasicUpstart2(start)
 
 .encoding "petscii_mixed"
 
-.const CHRGET = $0073
-.const SNERR = $af08
-.const NEWSTT = $a7ae
-.const GONE = $a7e4
-.const STROUT = $ab1e
-.const IGONE = $0308    // location of pointer to GONE
+.const CHRGET = $0073   // get next byte
+.const IGONE =  $0308   // location of pointer to GONE
+.const NEWSTT = $a7ae   // new statement
+.const GONE =   $a7e4   // original GONE routine
+.const STROUT = $ab1e   // output a string to BASIC
+.const CHKCOM = $aeff   // check for a comma
+.const SNERR =  $af08   // display syntax error
 
 * = $c000
 
@@ -90,11 +91,11 @@ do_cls:
 do_border:
     jsr $b79e // get byte into .x
     stx $d020 // set border
-    jsr $aefd // skip comma
+    jsr CHKCOM // skip comma
 
     jsr $b79e // get byte into .x
     stx $d021 // set background
-    jsr $aefd // skip comma
+    jsr CHKCOM // skip comma
 
     jsr $b79e // get byte into .x
     stx $286  // set text color
@@ -142,4 +143,3 @@ imsg:
 // please add your vanity text here for any
 // customizations you make
     .byte 0
-
