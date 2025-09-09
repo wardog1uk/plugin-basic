@@ -33,7 +33,7 @@ newgone:
     jsr CHRGET
     php
     cmp #'@'
-    beq newdispatch
+    beq !+
 
 // not our @ token ... jmp back
 // into GONE
@@ -41,8 +41,7 @@ newgone:
 // jump past the JSR chrget call in GONE
     jmp GONE+3
 
-newdispatch:
-    plp
+!:  plp
     jsr dispatch
     jmp NEWSTT
 
@@ -143,3 +142,4 @@ imsg:
 // please add your vanity text here for any
 // customizations you make
     .byte 0
+
