@@ -17,6 +17,7 @@ BasicUpstart2(start)
 .const STROUT = $ab1e   // output a string to BASIC
 .const CHKCOM = $aeff   // check for a comma
 .const SNERR =  $af08   // display syntax error
+.const GOTBYC = $b79e   // convert ascii to byte in .x
 
 * = $c000
 
@@ -89,15 +90,15 @@ do_cls:
 // set border, background, and
 // character color
 do_border:
-    jsr $b79e // get byte into .x
+    jsr GOTBYC // get byte into .x
     stx $d020 // set border
     jsr CHKCOM // skip comma
 
-    jsr $b79e // get byte into .x
+    jsr GOTBYC // get byte into .x
     stx $d021 // set background
     jsr CHKCOM // skip comma
 
-    jsr $b79e // get byte into .x
+    jsr GOTBYC // get byte into .x
     stx $286  // set text color
     rts
 
@@ -143,3 +144,4 @@ imsg:
 // please add your vanity text here for any
 // customizations you make
     .byte 0
+
