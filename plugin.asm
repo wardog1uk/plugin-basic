@@ -14,16 +14,20 @@ BasicUpstart2(start)
 .const IGONE =  $0308   // location of pointer to GONE
 .const NEWSTT = $a7ae   // new statement
 .const GONE =   $a7e4   // original GONE routine
-.const STROUT = $ab1e   // output a string to BASIC
+.const STROUT = $ab1e   // output string at $(a)(y)
 .const CHKCOM = $aeff   // check for a comma
 .const SNERR =  $af08   // display syntax error
 .const GOTBYC = $b79e   // convert ascii to byte in .x
 
+
+
 * = $c000
 
 start:
+    // display intro message
     jsr intromsg
 
+    // patch BASIC to use newgone instead of GONE
     lda #<newgone
     sta IGONE
     lda #>newgone
@@ -31,48 +35,74 @@ start:
 
     rts
 
+
 newgone:
+    // get the basic token or character
     jsr CHRGET
+
+    // store processor state
     php
+
+    // check if it is a @ command
     cmp #'@'
     beq !+
 
-// not our @ token ... jmp back
-// into GONE
+    // not a @ command, so restore state and jump to original GONE routine
     plp
-// jump past the JSR chrget call in GONE
-    jmp GONE+3
+    jmp GONE+3  // skip over CHRGET in GONE
 
 !:  plp
     jsr dispatch
+
+    // do interpreter inner loop
     jmp NEWSTT
 
+
 dispatch:
+    // get the character for the command
     jsr CHRGET
+
+    // check if it is 'a' or greater
     cmp #'a'
     bcs !+
+
+    // not a letter, so throw a syntax error
     jmp SNERR
 
+    // check if it is a letter a to z
 !:  cmp #'z'+1
     bcc !+
+
+    // not a letter, so throw a syntax error
     jmp SNERR
 
+    // convert to an index 0 to 25
 !:  sec
     sbc #'a'
+
+    // multiply by 2 as table has 2 bytes per command
     asl
+
+    // push address of the command to the stack
     tax
     lda table+1,x
     pha
     lda table,x
     pha
+
+    // CHRGET will get next char then jump to the command
     jmp CHRGET
 
+
 notimp:
+    // display not implemented message
     ldy #>msg
     lda #<msg
     jmp STROUT
 
+
 intromsg:
+    // display intro message
     ldy #>imsg
     lda #<imsg
     jmp STROUT
@@ -82,25 +112,36 @@ intromsg:
 //  @c
 // clear the screen
 do_cls:
+    // output shift/clear screen code
     lda #147
     jmp $ffd2
+
 
 // syntax
 // @b border,backgnd,char
 // set border, background, and
 // character color
 do_border:
-    jsr GOTBYC // get byte into .x
-    stx $d020 // set border
-    jsr CHKCOM // skip comma
+    // get byte into .x and set border
+    jsr GOTBYC
+    stx $d020
 
-    jsr GOTBYC // get byte into .x
-    stx $d021 // set background
-    jsr CHKCOM // skip comma
+    // skip comma
+    jsr CHKCOM
 
-    jsr GOTBYC // get byte into .x
-    stx $286  // set text color
+    // get byte into .x and set background
+    jsr GOTBYC
+    stx $d021
+
+    // skip comma
+    jsr CHKCOM
+
+    // get byte into .x and set text color
+    jsr GOTBYC
+    stx $286
+
     rts
+
 
 // table for commands
 table:
@@ -133,9 +174,11 @@ table:
     .word notimp-1    // @y
     .word notimp-1    // @z
 
+
 msg:
     .text "plug-in basic command not implemented..."
     .byte 0
+
 
 imsg:
     .text "plug-in basic kernel v 0.02a"
@@ -144,4 +187,3 @@ imsg:
 // please add your vanity text here for any
 // customizations you make
     .byte 0
-
