@@ -6,19 +6,19 @@
 //
 // Written using KickAssembler
 
-BasicUpstart2(start)
-
 .encoding "petscii_mixed"
 
 .const CHRGET = $0073   // get next byte
 .const IGONE =  $0308   // location of pointer to GONE
-.const NEWSTT = $a7ae   // new statement
+.const NEWSTT = $a7ae   // move to the next statement
 .const GONE =   $a7e4   // original GONE routine
 .const STROUT = $ab1e   // output string at $(a)(y)
 .const CHKCOM = $aeff   // check for a comma
 .const SNERR =  $af08   // display syntax error
 .const GOTBYC = $b79e   // convert ascii to byte in .x
 
+
+BasicUpstart2(start)
 
 
 * = $c000
@@ -145,38 +145,36 @@ do_border:
 
 // table for commands
 table:
-    .word notimp-1    // @a
-
-    .word do_border-1 // @b
-    .word do_cls-1    // @c
-
-    .word notimp-1    // @d
-    .word notimp-1    // @e
-    .word notimp-1    // @f
-    .word notimp-1    // @g
-    .word notimp-1    // @h
-    .word notimp-1    // @i
-    .word notimp-1    // @j
-    .word notimp-1    // @k
-    .word notimp-1    // @l
-    .word notimp-1    // @m
-    .word notimp-1    // @n
-    .word notimp-1    // @o
-    .word notimp-1    // @p
-    .word notimp-1    // @q
-    .word notimp-1    // @r
-    .word notimp-1    // @s
-    .word notimp-1    // @t
-    .word notimp-1    // @u
-    .word notimp-1    // @v
-    .word notimp-1    // @w
-    .word notimp-1    // @x
-    .word notimp-1    // @y
-    .word notimp-1    // @z
+    .word notimp - 1    // @a
+    .word do_border - 1 // @b
+    .word do_cls - 1    // @c
+    .word notimp - 1    // @d
+    .word notimp - 1    // @e
+    .word notimp - 1    // @f
+    .word notimp - 1    // @g
+    .word notimp - 1    // @h
+    .word notimp - 1    // @i
+    .word notimp - 1    // @j
+    .word notimp - 1    // @k
+    .word notimp - 1    // @l
+    .word notimp - 1    // @m
+    .word notimp - 1    // @n
+    .word notimp - 1    // @o
+    .word notimp - 1    // @p
+    .word notimp - 1    // @q
+    .word notimp - 1    // @r
+    .word notimp - 1    // @s
+    .word notimp - 1    // @t
+    .word notimp - 1    // @u
+    .word notimp - 1    // @v
+    .word notimp - 1    // @w
+    .word notimp - 1    // @x
+    .word notimp - 1    // @y
+    .word notimp - 1    // @z
 
 
 msg:
-    .text "plug-in basic command not implemented..."
+    .text "?command not implemented"
     .byte 0
 
 
